@@ -37,6 +37,8 @@ public class MyWorker extends Worker {
         Request request = new Request.Builder()
                 .url("https://api.openweathermap.org/data/2.5/weather?lat=59.937500&lon=30.308611&appid=53490b7df3f00a6485752eaae0747216")
                 .build();
+        if (broadcastContainer.isLoading.getValue()) return Result.failure();
+        broadcastContainer.isLoading.postValue(true);
         try (Response response = client.newCall(request).execute()) {
             if (!response.isSuccessful()) {
                 throw new IOException("not successful");
@@ -54,6 +56,8 @@ public class MyWorker extends Worker {
             Log.e("request", e.getMessage());
         } catch (JSONException e) {
             Log.e("json", e.getMessage());
+        } finally{
+            broadcastContainer.isLoading.postValue(false);
         }
         return Result.failure();
     }

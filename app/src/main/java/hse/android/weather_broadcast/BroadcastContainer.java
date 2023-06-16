@@ -13,9 +13,11 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class BroadcastContainer {
 
     private final MutableLiveData<List<Broadcast>> broadcastList = new MutableLiveData<>();
+    public final MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
     {
         broadcastList.postValue(new ArrayList<>());
+        isLoading.postValue(false);
     }
 
     public void setObserver(Observer<List<Broadcast>> observer){
