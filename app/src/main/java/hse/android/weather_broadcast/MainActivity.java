@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                loadNextBroadcast();
+                if (dy >= 0) {
+                    loadNextBroadcast();
+                }
             }
         });
         broadcastContainer.setObserver(list -> broadcastAdapter.notifyDataSetChanged());
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadNextBroadcast() {
+        if (broadcastContainer.isLoading.getValue()) return;
         OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(MyWorker.class).build();
         WorkManager.getInstance(this).enqueue(request);
     }

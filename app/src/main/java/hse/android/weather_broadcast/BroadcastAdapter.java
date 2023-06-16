@@ -1,6 +1,7 @@
 package hse.android.weather_broadcast;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,11 @@ public class BroadcastAdapter extends RecyclerView.Adapter<BroadcastAdapter.Broa
         date.setText(broadcast.getDate().toString());
         temperature.setText(broadcast.getTemperature());
         city.setText(broadcast.getCity());
+        holder.itemView.setOnClickListener(v -> {
+            Context context = v.getContext();
+            CurrentBroadcast.CurrentBroadcastProvider.provide().setCurrentBroadcast(broadcast);
+            context.startActivity(new Intent(context, SecondActivity.class));
+        });
     }
 
     @Override
